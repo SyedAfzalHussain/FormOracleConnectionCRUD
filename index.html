@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FormPage</title>
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+<style>
+    * {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #f1f1f1;
+    }
+
+    .from {
+        width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .from label {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .from input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    .from input[type="submit"] {
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    #submit {
+        margin-top: 6%;
+        background-color: #333;
+        color: #fff;
+        cursor: pointer;
+    }
+    .loginBtn {
+        width: 100%;
+        background-color: #333;
+        padding: 2%;
+        margin-top: 3%;
+        border-radius: 5px ;
+        cursor: pointer;
+    }
+    .loginBtn a {
+        text-decoration: none;
+        color: #fff;
+    }
+</style>
+
+<body>
+    <form action="/signup" method="POST" class="from">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="email">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <input type="submit" value="Sign Up" id="submit">
+    </form>
+
+    <form action="/login" method="POST" class="from">
+        <label for="name">Name: *Optional</label>
+        <input type="text" id="name" name="name"><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        <label for="email">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+        <input type="submit" value="Login" id="submit">
+    </form>
+</body>
+
+</html>
