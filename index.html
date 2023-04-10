@@ -12,23 +12,19 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 <style>
     * {
-        font-family: 'Roboto', sans-serif;
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
-
-    body {
-        background-color: #f1f1f1;
+        font-family: 'Poppins', sans-serif;
     }
 
     .from {
-        width: 400px;
-        margin: 100px auto;
+        width: 50%;
+        margin: 0 auto;
         padding: 20px;
-        background-color: #fff;
-        border-radius: 5px;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+        border: 1px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
     }
 
     .from label {
@@ -39,56 +35,171 @@
     .from input {
         width: 100%;
         padding: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid black;
         border-radius: 5px;
     }
 
     .from input[type="submit"] {
-        background-color: #333;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: #000;
         color: #fff;
         cursor: pointer;
     }
 
-    #submit {
-        margin-top: 6%;
-        background-color: #333;
-        color: #fff;
-        cursor: pointer;
+    .demo {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
     }
-    .loginBtn {
+
+    .demo label {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .demo input {
         width: 100%;
-        background-color: #333;
-        padding: 2%;
-        margin-top: 3%;
-        border-radius: 5px ;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+
+    .demo input[type="submit"] {
+        margin-top: 2vh;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: #000;
+        color: #fff;
         cursor: pointer;
     }
-    .loginBtn a {
-        text-decoration: none;
-        color: #fff;
+
+    .downDemo {
+        width: 50%;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    .downDemo h3 {
+        margin: 10px 0;
+    }
+
+    .downDemo h4 {
+        display: flex;
+        justify-content: center;
+        margin: 10px 0;
+    }
+
+    .signUp {
+        display: none;
+        color: rebeccapurple;
+    }
+
+    #submit {
+        margin-top: 2vh;
     }
 </style>
 
 <body>
-    <form action="/signup" method="POST" class="from">
+    <div class="signUp from">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required><br>
         <label for="email">Password:</label>
         <input type="password" id="password" name="password" required><br>
-        <input type="submit" value="Sign Up" id="submit">
-    </form>
+        <a href="#" onclick="changeToLogin()">Login</a>
+        <input onclick="signUp()" type="submit" value="SignUp" id="submit">
+    </div>
 
-    <form action="/login" method="POST" class="from">
-        <label for="name">Name: *Optional</label>
-        <input type="text" id="name" name="name"><br>
+    <div class="demo">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
+        <input type="text" id="emailLogin" name="email" required><br>
         <label for="email">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-        <input type="submit" value="Login" id="submit">
-    </form>
+        <input type="password" id="passwordLogin" name="password" required><br>
+        <a href="#" onclick="changeToSignUp()">SignUp</a>
+        <input onclick="login()" type="submit" value="Login" id="submit">
+    </div>
+    <div class="demo downDemo">
+
+    </div>
 </body>
+
+<script>
+    function login() {
+        var email = document.getElementById("emailLogin").value;
+        var password = document.getElementById("passwordLogin").value;
+        var data = {
+            email: email,
+            password: password
+        }
+        console.log(data);
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+            .then(data => {
+                if (data.email === null || data.password === null) {
+                    alert("Invalid Credentials");
+                }
+                else {
+                    data.name.forEach(element => {
+                        element.forEach(row => {
+                            document.querySelector(".downDemo").innerHTML += `<h4>${row}</h4>`
+                        })
+                    })
+                    alert(JSON.stringify(data));
+                }
+            })
+    }
+
+    function signUp() {
+        var name = document.getElementById("name").value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var data = {
+            name: name,
+            email: email,
+            password: password
+        }
+        fetch("/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data.email)
+                if (data.email === null || data.password === null) {
+                    alert("Invalid Credentials");
+                }
+                else {
+                    alert("Successfully Signed Up");
+                }
+            })
+    }
+    function changeToSignUp() {
+        document.querySelector(".demo").style.display = "none";
+        document.querySelector(".signUp").style.display = "block";
+    }
+    function changeToLogin() {
+        document.querySelector(".demo").style.display = "block";
+        document.querySelector(".signUp").style.display = "none";
+    }
+</script>
 
 </html>
