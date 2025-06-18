@@ -1,10 +1,24 @@
 
-const bodyParser = require('body-parser');
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const oracledb = require('oracledb');
-const path = require('path');
+// const bodyParser = require('body-parser');
+// require('dotenv').config();
+// const express = require('express');
+// const cors = require('cors');
+// const oracledb = require('oracledb');
+// const path = require('path');
+// const sql = require('./db.js'); // Assuming db.js is in the same directory
+import express from 'express';  
+import bodyParser from 'body-parser';
+import dotenv from "dotenv"
+dotenv.config()
+import cors from "cors"
+import path from "path"
+import sql from "./db.js"
+
+import { fileURLToPath } from 'url';
+
+// Recreate __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const port = process.env.PORT || 3000;
 
@@ -22,24 +36,26 @@ app.post('/login', async (req, res) => {
     let connection;
     console.log(req.body.email + " " + req.body.password)
     try {
-        connection = await oracledb.getConnection({
-            user: process.env.USER_NAME,
-            password: process.env.PSWD,
-            connectString: process.env.CONNECTION_STRING
-        });
+        // connection = await oracledb.getConnection({
+        //     user: process.env.USER_NAME,
+        //     password: process.env.PSWD,
+        //     connectString: process.env.CONNECTION_STRING
+        // });
 
         console.log(`SELECT name, email FROM first_table WHERE email = '${req.body.email}' AND password = '${req.body.password}'`)
+        const result = await sql`
+        SELECT name, email 
+        FROM first_table 
+        WHERE email = ${req.body.email} AND password = ${req.body.password}
+        `;
 
-        const result = await connection.execute(
-            `SELECT name , email FROM first_table WHERE email = '${req.body.email}' AND password = '${req.body.password}'`,
-        );
         console.log("Successfully fetched data");
-        console.log(result.rows);
-        if (result.rows.length > 0) {
+        console.log(result);
+        if (result.length > 0) {
             console.log("User exists")
             res.send({
                 "message": "User exists",
-                "name": result.rows,
+                "name": result,
                 "email": "",
             })
         }
@@ -52,16 +68,16 @@ app.post('/login', async (req, res) => {
     } catch (err) {
         console.error('Error executing query: ', err);
     } finally {
-        if (connection) {
+        // if (connection) {
             try {
-                await connection.close();
+                // await connection.close();
                 console.log('Connection closed');
                 // res.redirect("http://localhost:3000");
             } catch (err) {
                 console.error('Error closing connection: ', err);
                 res.send({ "message": "Error closing connection" })
             }
-        }
+        // }
     }
 });
 
@@ -75,22 +91,28 @@ app.post('/signup', async (req, res) => {
     if (name != null || email !== null || password !== null) {
         console.log("Inside if condition")
         try {
-            connection = await oracledb.getConnection({
-                user: process.env.USER_NAME,
-                password: process.env.PSWD,
-                connectString: process.env.CONNECTION_STRING
-            });
+            // connection = await oracledb.getConnection({
+            //     user: process.env.USER_NAME,
+            //     password: process.env.PSWD,
+            //     connectString: process.env.CONNECTION_STRING
+            // });
 
-            const result = await connection.execute(
-                `INSERT INTO first_table (name, email, password) VALUES ('${name}', '${email}', '${password}')`,
-            );
-            await connection.commit();
+            const result = await sql`
+                INSERT INTO first_table (name, email, password) 
+                VALUES (${name}, ${email}, ${password})
+            `;
+
+            console.log("Successfully inserted data");
+            console.log(result.count + " rows inserted");
+
+            
+
+
+            // await connection.commit();
             console.log("Successfully inserted data");
             console.log(result.rowsAffected + " rows inserted");
 
-            const r = await connection.execute(
-                `SELECT * FROM first_table`,
-            );
+            const r = await sql`SELECT * FROM first_table`;
             res.send({
                 "message": "Successfully inserted data",
                 "name": r.rows,
@@ -103,7 +125,7 @@ app.post('/signup', async (req, res) => {
         } finally {
             if (connection) {
                 try {
-                    await connection.close();
+                    // await connection.close();
                 } catch (err) {
                     console.error('Error closing connection: ', err);
                 }
