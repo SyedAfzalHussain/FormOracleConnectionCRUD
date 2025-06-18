@@ -2,204 +2,671 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FormPage</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>School Management Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            background: #f4f6fb;
+            font-family: "Poppins", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            padding: 32px 40px 40px 40px;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .nav h1 {
+            font-size: 2rem;
+            color: #2d3a4a;
+        }
+
+        .nav .nav-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav .nav-links button {
+            background: none;
+            border: none;
+            color: #2d3a4a;
+            font-size: 1rem;
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .nav .nav-links button.active,
+        .nav .nav-links button:hover {
+            background: #e3e9f6;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-card {
+            background: #f9fafc;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .form-card h2 {
+            margin-bottom: 16px;
+            color: #2d3a4a;
+        }
+
+        .form-card label {
+            display: block;
+            margin-bottom: 6px;
+            color: #4b5c6b;
+        }
+
+        .form-card input,
+        .form-card select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #d1d9e6;
+            border-radius: 6px;
+            font-size: 1rem;
+            background: #fff;
+        }
+
+        .form-card button {
+            background: #4f8cff;
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .form-card button:hover {
+            background: #2563eb;
+        }
+
+        .table-section {
+            margin-top: 24px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+
+        th,
+        td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e3e9f6;
+            text-align: left;
+        }
+
+        th {
+            background: #f1f5fb;
+            color: #2d3a4a;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .actions button {
+            margin-right: 8px;
+            background: #e3e9f6;
+            color: #2d3a4a;
+            border: none;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .actions button.delete {
+            background: #ff4f4f;
+            color: #fff;
+        }
+
+        .actions button.edit {
+            background: #ffd24f;
+            color: #2d3a4a;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 8px;
+            }
+
+            .nav h1 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .from {
-        width: 50%;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid black;
-        border-radius: 10px;
-        margin-top: 20px;
-    }
-
-    .from label {
-        display: block;
-        margin: 10px 0;
-    }
-
-    .from input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid black;
-        border-radius: 5px;
-    }
-
-    .from input[type="submit"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid black;
-        border-radius: 5px;
-        background-color: #000;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    .demo {
-        width: 50%;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid black;
-        border-radius: 10px;
-        margin-top: 20px;
-    }
-
-    .demo label {
-        display: block;
-        margin: 10px 0;
-    }
-
-    .demo input {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid black;
-        border-radius: 5px;
-    }
-
-    .demo input[type="submit"] {
-        margin-top: 2vh;
-        width: 100%;
-        padding: 10px;
-        border: 1px solid black;
-        border-radius: 5px;
-        background-color: #000;
-        color: #fff;
-        cursor: pointer;
-    }
-
-    .downDemo {
-        width: 50%;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid black;
-        border-radius: 10px;
-        margin-top: 20px;
-    }
-
-    .downDemo h3 {
-        margin: 10px 0;
-    }
-
-    .downDemo h4 {
-        display: flex;
-        justify-content: center;
-        margin: 10px 0;
-    }
-
-    .signUp {
-        display: none;
-        color: rebeccapurple;
-    }
-
-    #submit {
-        margin-top: 2vh;
-    }
-</style>
 
 <body>
-    <div class="signUp from">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-        <label for="email">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-        <a href="#" onclick="changeToLogin()">Login</a>
-        <input onclick="signUp()" type="submit" value="SignUp" id="submit">
+    <div class="container">
+        <div class="nav">
+            <h1>School Management Portal</h1>
+            <div class="nav-links">
+                <!-- <button onclick="showSection('login')" id="nav-login" class="active">Login</button> -->
+                <!-- <button onclick="showSection('signup')" id="nav-signup">Sign Up</button> -->
+                <!-- <button onclick="showSection('dashboard')" id="nav-dashboard" class="active">Dashboard</button> -->
+                <button onclick="showSection('students')" id="nav-students">Students</button>
+                <button onclick="showSection('teachers')" id="nav-teachers">Teachers</button>
+                <button onclick="showSection('classes')" id="nav-classes">Classes</button>
+                <button onclick="showSection('subjects')" id="nav-subjects">Subjects</button>
+                <button onclick="showSection('enrollments')" id="nav-enrollments">Enrollments</button>
+            </div>
+        </div>
+        <!-- Login Section (commented out) -->
+        <!--
+        <div class="form-section active" id="section-login">
+            <div class="form-card">
+                <h2>Login</h2>
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" required>
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" required>
+                <button onclick="login()">Login</button>
+            </div>
+        </div>
+        -->
+        <!-- Signup Section (commented out) -->
+        <!--
+        <div class="form-section" id="section-signup">
+            <div class="form-card">
+                <h2>Sign Up</h2>
+                <label for="signup-name">Name</label>
+                <input type="text" id="signup-name" required>
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" required>
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" required>
+                <button onclick="signUp()">Sign Up</button>
+            </div>
+        </div>
+        -->
+        <!-- Dashboard Section -->
+        <div class="form-section active" id="section-dashboard">
+            <div class="form-card">
+                <h2>Dashboard</h2>
+                <div id="dashboard-summary" style="display: flex; gap: 32px; margin-bottom: 32px;"></div>
+                <h3>Recent Enrollments (with Joins)</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Enrollment ID</th>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Teacher</th>
+                            <th>Subject</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dashboard-enrollments-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Students Section -->
+        <div class="form-section" id="section-students">
+            <div class="form-card">
+                <h2>Add Student</h2>
+                <label for="student-name">Name</label>
+                <input type="text" id="student-name" />
+                <label for="student-email">Email</label>
+                <input type="email" id="student-email" />
+                <label for="student-dob">Date of Birth</label>
+                <input type="date" id="student-dob" />
+                <button onclick="addStudent()">Add Student</button>
+            </div>
+            <div class="table-section">
+                <h2>Students</h2>
+                <table id="students-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date of Birth</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Teachers Section -->
+        <div class="form-section" id="section-teachers">
+            <div class="form-card">
+                <h2>Add Teacher</h2>
+                <label for="teacher-name">Name</label>
+                <input type="text" id="teacher-name" />
+                <label for="teacher-email">Email</label>
+                <input type="email" id="teacher-email" />
+                <button onclick="addTeacher()">Add Teacher</button>
+            </div>
+            <div class="table-section">
+                <h2>Teachers</h2>
+                <table id="teachers-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Classes Section -->
+        <div class="form-section" id="section-classes">
+            <div class="form-card">
+                <h2>Add Class</h2>
+                <label for="class-name">Class Name</label>
+                <input type="text" id="class-name" />
+                <label for="class-teacher">Teacher</label>
+                <select id="class-teacher"></select>
+                <label for="class-subject">Subject</label>
+                <select id="class-subject"></select>
+                <button onclick="addClass()">Add Class</button>
+            </div>
+            <div class="table-section">
+                <h2>Classes</h2>
+                <table id="classes-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Teacher</th>
+                            <th>Subject</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Subjects Section -->
+        <div class="form-section" id="section-subjects">
+            <div class="form-card">
+                <h2>Add Subject</h2>
+                <label for="subject-name">Subject Name</label>
+                <input type="text" id="subject-name" />
+                <label for="subject-description">Description</label>
+                <input type="text" id="subject-description" />
+                <button onclick="addSubject()">Add Subject</button>
+            </div>
+            <div class="table-section">
+                <h2>Subjects</h2>
+                <table id="subjects-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- Enrollments Section -->
+        <div class="form-section" id="section-enrollments">
+            <div class="form-card">
+                <h2>Enroll Student</h2>
+                <label for="enroll-student">Student</label>
+                <select id="enroll-student"></select>
+                <label for="enroll-class">Class</label>
+                <select id="enroll-class"></select>
+                <button onclick="addEnrollment()">Enroll</button>
+            </div>
+            <div class="table-section">
+                <h2>Enrollments</h2>
+                <table id="enrollments-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student</th>
+                            <th>Class</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
+    <script>
+        // Navigation logic
+        function showSection(section) {
+            document
+                .querySelectorAll(".form-section")
+                .forEach((sec) => sec.classList.remove("active"));
+            document.getElementById("section-" + section).classList.add("active");
+            document
+                .querySelectorAll(".nav-links button")
+                .forEach((btn) => btn.classList.remove("active"));
+            document.getElementById("nav-" + section).classList.add("active");
+            if (section !== "login" && section !== "signup") {
+                loadData(section);
+            }
+        }
 
-    <div class="demo">
-        <label for="email">Email:</label>
-        <input type="text" id="emailLogin" name="email" required><br>
-        <label for="email">Password:</label>
-        <input type="password" id="passwordLogin" name="password" required><br>
-        <a href="#" onclick="changeToSignUp()">SignUp</a>
-        <input onclick="login()" type="submit" value="Login" id="submit">
-    </div>
-    <div class="demo downDemo">
+        // --- LOGIN & SIGNUP ---
+        async function login() {
+            const email = document.getElementById("login-email").value;
+            const password = document.getElementById("login-password").value;
+            const res = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert("Login successful!");
+                showSection("students");
+            } else {
+                alert(data.message || "Login failed");
+            }
+        }
+        async function signUp() {
+            const name = document.getElementById("signup-name").value;
+            const email = document.getElementById("signup-email").value;
+            const password = document.getElementById("signup-password").value;
+            const res = await fetch("/signup", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password }),
+            });
+            const data = await res.json();
+            if (res.ok) {
+                alert("Signup successful!");
+                showSection("login");
+            } else {
+                alert(data.message || "Signup failed");
+            }
+        }
 
-    </div>
+        // --- LOAD DATA FOR TABLES & DROPDOWNS ---
+        async function loadData(section) {
+            switch (section) {
+                case "students":
+                    await loadStudents();
+                    break;
+                case "teachers":
+                    await loadTeachers();
+                    break;
+                case "classes":
+                    await Promise.all([
+                        loadClasses(),
+                        loadTeachersDropdown(),
+                        loadSubjectsDropdown(),
+                    ]);
+                    break;
+                case "subjects":
+                    await loadSubjects();
+                    break;
+                case "enrollments":
+                    await Promise.all([
+                        loadEnrollments(),
+                        loadStudentsDropdown(),
+                        loadClassesDropdown(),
+                    ]);
+                    break;
+            }
+        }
+
+        // --- STUDENTS ---
+        async function loadStudents() {
+            const res = await fetch("/students");
+            const students = await res.json();
+            const tbody = document.querySelector("#students-table tbody");
+            tbody.innerHTML = "";
+            students.forEach((s) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${s.student_id}</td><td>${s.name}</td><td>${s.email
+                    }</td><td>${s.date_of_birth || ""}</td>
+            <td class='actions'><button onclick="deleteStudent(${s.student_id
+                    })">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        async function addStudent() {
+            const name = document.getElementById("student-name").value;
+            const email = document.getElementById("student-email").value;
+            const date_of_birth = document.getElementById("student-dob").value;
+            await fetch("/students", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, date_of_birth }),
+            });
+            await loadStudents();
+        }
+        async function deleteStudent(id) {
+            await fetch(`/students/${id}`, { method: "DELETE" });
+            await loadStudents();
+        }
+
+        // --- TEACHERS ---
+        async function loadTeachers() {
+            const res = await fetch("/teachers");
+            const teachers = await res.json();
+            const tbody = document.querySelector("#teachers-table tbody");
+            tbody.innerHTML = "";
+            teachers.forEach((t) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${t.teacher_id}</td><td>${t.name}</td><td>${t.email}</td>
+            <td class='actions'><button onclick="deleteTeacher(${t.teacher_id})">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        async function addTeacher() {
+            const name = document.getElementById("teacher-name").value;
+            const email = document.getElementById("teacher-email").value;
+            await fetch("/teachers", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email }),
+            });
+            await loadTeachers();
+            await loadTeachersDropdown();
+        }
+        async function deleteTeacher(id) {
+            await fetch(`/teachers/${id}`, { method: "DELETE" });
+            await loadTeachers();
+            await loadTeachersDropdown();
+        }
+        async function loadTeachersDropdown() {
+            const res = await fetch("/teachers");
+            const teachers = await res.json();
+            const select = document.getElementById("class-teacher");
+            select.innerHTML = '<option value="">Select Teacher</option>';
+            teachers.forEach((t) => {
+                const opt = document.createElement("option");
+                opt.value = t.teacher_id;
+                opt.textContent = t.name;
+                select.appendChild(opt);
+            });
+        }
+
+        // --- SUBJECTS ---
+        async function loadSubjects() {
+            const res = await fetch("/subjects");
+            const subjects = await res.json();
+            const tbody = document.querySelector("#subjects-table tbody");
+            tbody.innerHTML = "";
+            subjects.forEach((s) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${s.subject_id}</td><td>${s.name}</td><td>${s.description || ""
+                    }</td>
+            <td class='actions'><button onclick="deleteSubject(${s.subject_id
+                    })">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        async function addSubject() {
+            const name = document.getElementById("subject-name").value;
+            const description = document.getElementById(
+                "subject-description"
+            ).value;
+            await fetch("/subjects", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, description }),
+            });
+            await loadSubjects();
+            await loadSubjectsDropdown();
+        }
+        async function deleteSubject(id) {
+            await fetch(`/subjects/${id}`, { method: "DELETE" });
+            await loadSubjects();
+            await loadSubjectsDropdown();
+        }
+        async function loadSubjectsDropdown() {
+            const res = await fetch("/subjects");
+            const subjects = await res.json();
+            const select = document.getElementById("class-subject");
+            select.innerHTML = '<option value="">Select Subject</option>';
+            subjects.forEach((s) => {
+                const opt = document.createElement("option");
+                opt.value = s.subject_id;
+                opt.textContent = s.name;
+                select.appendChild(opt);
+            });
+        }
+
+        // --- CLASSES ---
+        async function loadClasses() {
+            const res = await fetch("/classes");
+            const classes = await res.json();
+            const tbody = document.querySelector("#classes-table tbody");
+            tbody.innerHTML = "";
+            classes.forEach((c) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${c.class_id}</td><td>${c.name}</td><td>${c.teacher || ""
+                    }</td><td>${c.subject || ""}</td>
+            <td class='actions'><button onclick="deleteClass(${c.class_id
+                    })">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        async function addClass() {
+            const name = document.getElementById("class-name").value;
+            const teacher_id = document.getElementById("class-teacher").value;
+            const subject_id = document.getElementById("class-subject").value;
+            await fetch("/classes", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, teacher_id, subject_id }),
+            });
+            await loadClasses();
+        }
+        async function deleteClass(id) {
+            await fetch(`/classes/${id}`, { method: "DELETE" });
+            await loadClasses();
+        }
+        async function loadClassesDropdown() {
+            const res = await fetch("/classes");
+            const classes = await res.json();
+            const select = document.getElementById("enroll-class");
+            select.innerHTML = '<option value="">Select Class</option>';
+            classes.forEach((c) => {
+                const opt = document.createElement("option");
+                opt.value = c.class_id;
+                opt.textContent = c.name;
+                select.appendChild(opt);
+            });
+        }
+
+        // --- ENROLLMENTS ---
+        async function loadEnrollments() {
+            const res = await fetch("/enrollments");
+            const enrollments = await res.json();
+            const tbody = document.querySelector("#enrollments-table tbody");
+            tbody.innerHTML = "";
+            enrollments.forEach((e) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `<td>${e.enrollment_id}</td><td>${e.student}</td><td>${e.class
+                    }</td><td>${e.enrollment_date || ""}</td>
+            <td class='actions'><button onclick="deleteEnrollment(${e.enrollment_id
+                    })">Delete</button></td>`;
+                tbody.appendChild(tr);
+            });
+        }
+        async function addEnrollment() {
+            const student_id = document.getElementById("enroll-student").value;
+            const class_id = document.getElementById("enroll-class").value;
+            await fetch("/enrollments", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ student_id, class_id }),
+            });
+            await loadEnrollments();
+        }
+        async function deleteEnrollment(id) {
+            await fetch(`/enrollments/${id}`, { method: "DELETE" });
+            await loadEnrollments();
+        }
+        async function loadStudentsDropdown() {
+            const res = await fetch("/students");
+            const students = await res.json();
+            const select = document.getElementById("enroll-student");
+            select.innerHTML = '<option value="">Select Student</option>';
+            students.forEach((s) => {
+                const opt = document.createElement("option");
+                opt.value = s.student_id;
+                opt.textContent = s.name;
+                select.appendChild(opt);
+            });
+        }
+
+        // Call populateJoinDropdowns when Joins Demo section is shown
+        const origShowSection = window.showSection || showSection;
+        window.showSection = function (section) {
+            origShowSection(section);
+            if (section === 'joins-demo') {
+                populateJoinDropdowns();
+            }
+            if (section === 'dashboard') {
+                loadDashboard();
+            }
+        }
+
+        // Initial load for default section
+        document.addEventListener("DOMContentLoaded", () => {
+            showSection("students");
+        });
+    </script>
 </body>
-
-<script>
-    function login() {
-        var email = document.getElementById("emailLogin").value;
-        var password = document.getElementById("passwordLogin").value;
-        var data = {
-            email: email,
-            password: password
-        }
-        console.log(data);
-        fetch("/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-            .then(data => {
-                if (data.email === null || data.password === null) {
-                    alert("Invalid Credentials");
-                }
-                else {
-                    data.name.forEach(element => {
-                        element.forEach(row => {
-                            document.querySelector(".downDemo").innerHTML += `<h4>${row}</h4>`
-                        })
-                    })
-                    alert(JSON.stringify(data));
-                }
-            })
-    }
-
-    function signUp() {
-        var name = document.getElementById("name").value;
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
-        var data = {
-            name: name,
-            email: email,
-            password: password
-        }
-        fetch("/signup", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-            .then(data => {
-                console.log(data.email)
-                if (data.email === null || data.password === null) {
-                    alert("Invalid Credentials");
-                }
-                else {
-                    alert("Successfully Signed Up");
-                }
-            })
-    }
-    function changeToSignUp() {
-        document.querySelector(".demo").style.display = "none";
-        document.querySelector(".signUp").style.display = "block";
-    }
-    function changeToLogin() {
-        document.querySelector(".demo").style.display = "block";
-        document.querySelector(".signUp").style.display = "none";
-    }
-</script>
 
 </html>
